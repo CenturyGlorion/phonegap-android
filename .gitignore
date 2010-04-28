@@ -5,3 +5,7 @@ local.properties
 framework/phonegap.jar
 framework/bin
 framework/assets/www/.DS_Store
+.idea
+*.iws
+*.ipr
+*.iml

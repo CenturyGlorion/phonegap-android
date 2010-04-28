@@ -22,6 +22,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.content.Context;
+import android.os.PowerManager;
 
 /**
  * This class listens to the accelerometer sensor and stores the latest 
@@ -43,6 +44,7 @@ public class AccelListener extends Plugin implements SensorEventListener {
 
     private SensorManager sensorManager;// Sensor manager
     Sensor mSensor;						// Acceleration sensor returned by sensor manager
+    private PowerManager.WakeLock wakeLock; // Wakelock to keep CPU up for Accelerometer events
 
     /**
      * Create an accelerometer listener.
@@ -53,6 +55,8 @@ public class AccelListener extends Plugin implements SensorEventListener {
         this.z = 0;
         this.timestamp = 0;
         this.setStatus(AccelListener.STOPPED);
+        final PowerManager powerManager = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+        this.wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AccelListener");
      }
     
 	/**
@@ -197,6 +201,7 @@ public class AccelListener extends Plugin implements SensorEventListener {
         if ((list != null) && (list.size() > 0)) {
             this.mSensor = list.get(0);
             this.sensorManager.registerListener(this, this.mSensor, SensorManager.SENSOR_DELAY_FASTEST);
+            this.wakeLock.acquire();
             this.setStatus(AccelListener.STARTING);
             this.lastAccessTime = System.currentTimeMillis();
         }
@@ -216,6 +221,7 @@ public class AccelListener extends Plugin implements SensorEventListener {
         if (this.status != AccelListener.STOPPED) {
         	this.sensorManager.unregisterListener(this);
         }
+        this.wakeLock.release();
         this.setStatus(AccelListener.STOPPED);
     }
 

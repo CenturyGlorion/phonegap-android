@@ -9,3 +9,4 @@ framework/assets/www/.DS_Store
 *.iws
 *.ipr
 *.iml
+out

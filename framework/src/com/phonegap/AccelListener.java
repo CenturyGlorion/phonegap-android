@@ -56,7 +56,7 @@ public class AccelListener extends Plugin implements SensorEventListener {
         this.timestamp = 0;
         this.setStatus(AccelListener.STOPPED);
         final PowerManager powerManager = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
-        this.wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AccelListener");
+        this.wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "AccelListener");
      }
     
 	/**

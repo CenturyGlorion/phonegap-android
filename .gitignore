@@ -4,6 +4,7 @@ assets/www/phonegap.js
 local.properties
 framework/phonegap.jar
 framework/bin
+framework/gen
 framework/assets/www/.DS_Store
 .idea
 *.iws
